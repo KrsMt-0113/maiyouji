@@ -1,0 +1,75 @@
+{
+  "executedAt": "2026-10-29T19:30:05+0800",
+  "transport": "Application HTTP API → official MCP SDK → https://mcp.mcd.cn",
+  "mode": "live",
+  "readOnly": true,
+  "privatePayloadsRecorded": false,
+  "checks": [
+    {
+      "tool": "now-time-info",
+      "passed": true,
+      "durationMs": 2247,
+      "traceId": "ca66b21894bdc2c845567e4b28a4c158"
+    },
+    {
+      "tool": "query-nearby-stores",
+      "passed": true,
+      "durationMs": 298,
+      "traceId": "7e39b508fea0bce1d8262c45fc791cf5"
+    },
+    {
+      "tool": "query-meals",
+      "passed": true,
+      "durationMs": 755,
+      "traceId": "19b36ecdd6c5c0091b23599c9b5e85c3"
+    },
+    {
+      "tool": "query-meal-detail",
+      "passed": true,
+      "durationMs": 126,
+      "traceId": "f06f525dbd84414ab310119f67f0be20"
+    },
+    {
+      "tool": "list-nutrition-foods",
+      "passed": true,
+      "durationMs": 109,
+      "traceId": "a04fa681b9b0e0d5bc83e8b6edd7fb8a"
+    },
+    {
+      "tool": "calculate-price",
+      "passed": true,
+      "durationMs": 180,
+      "traceId": "2708bb3a9b9c51d7326956349a117016"
+    },
+    {
+      "tool": "query-my-account",
+      "passed": true,
+      "durationMs": 91,
+      "traceId": "40b906750e6539ef3f36c7685a60a44c"
+    },
+    {
+      "tool": "query-my-coupons",
+      "passed": true,
+      "durationMs": 156,
+      "traceId": "e62bcf55955e6323cf6dab720f039367"
+    },
+    {
+      "tool": "query-lottery-info",
+      "passed": true,
+      "durationMs": 130,
+      "traceId": "b3cf04c2c88811bb28975647940e37a0"
+    },
+    {
+      "tool": "mall-points-products",
+      "passed": true,
+      "durationMs": 149,
+      "traceId": "81f375a392ccc958b757755a53e6751f"
+    },
+    {
+      "tool": "campaign-calendar",
+      "passed": true,
+      "durationMs": 285,
+      "traceId": "933d705e80d8564f192f08a9eb460bb4"
+    }
+  ]
+}

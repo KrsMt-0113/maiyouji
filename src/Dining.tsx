@@ -652,11 +652,7 @@ export function MenuPage({
     .sort((x, y) => (sort === 'price' ? (x.price ?? Infinity) - (y.price ?? Infinity) : 0));
   return (
     <>
-      <PageTitle
-        eyebrow="THE HAPPY MENU"
-        title="今天，想吃点什么？"
-        description="熟悉的味道，或者一点新鲜感。"
-      />
+      <PageTitle eyebrow="THE HAPPY MENU" title="点餐" description="熟悉的味道，或者一点新鲜感。" />
       <button className="location-bar" onClick={openStores}>
         <MapPin size={19} />
         <div>

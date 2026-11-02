@@ -35,59 +35,6 @@ import {
   type Meal,
 } from '../shared/domain';
 import { PageTitle, SectionTitle, MealCard, Sheet, ResourceStatus, Empty, FoodImage } from './ui';
-export function JourneyArt() {
-  return (
-    <svg viewBox="0 0 300 300" fill="none" aria-hidden="true" className="journey-art">
-      <circle cx="153" cy="150" r="108" fill="#f8e4aa" />
-      <ellipse
-        cx="157"
-        cy="167"
-        rx="131"
-        ry="62"
-        transform="rotate(-28 157 167)"
-        stroke="#9b694f"
-        strokeWidth="1.5"
-        strokeDasharray="4 7"
-      />
-      <path d="m62 221 5 14-14-5M261 98l7 13-15-1" stroke="#9b694f" strokeWidth="2" />
-      <g transform="rotate(-12 148 140)" stroke="#33392e" strokeWidth="3.2" strokeLinejoin="round">
-        <path d="M69 139c0-80 157-80 157 0H69Z" fill="#f2bc62" />
-        <path
-          d="m87 131 5-3m15-27 4 3m25-13 4 3m20 13 4-3m23 8 4 3m14 8 5-2"
-          stroke="#fff4d0"
-          strokeWidth="4"
-          strokeLinecap="round"
-        />
-        <path
-          d="m69 151 17 7 18-6 18 7 18-6 18 7 18-7 19 6 17-6 14 6"
-          stroke="#749b65"
-          strokeWidth="12"
-        />
-        <path d="M70 167h155v14H70z" fill="#8c5140" />
-        <path d="m91 181 32 16 22-16" fill="#f5d86e" />
-        <path d="M72 191h151v13c0 29-151 29-151 0v-13Z" fill="#f2bc62" />
-        <path d="M117 142v9m55-9v9" strokeLinecap="round" />
-        <path d="M141 154q7 7 14 0" strokeLinecap="round" />
-      </g>
-      <g transform="translate(208 27) rotate(13)">
-        <rect width="54" height="62" rx="10" fill="#faf7ee" stroke="#33392e" strokeWidth="2.5" />
-        <path d="M15 15h24M15 23h17" stroke="#adad9e" strokeWidth="3" />
-        <circle cx="29" cy="43" r="10" stroke="#ed6744" strokeWidth="2" strokeDasharray="2 2" />
-        <path d="m24 42 4 5 7-9" stroke="#ed6744" strokeWidth="2" />
-      </g>
-      <path
-        d="m41 76 4 9 10 1-8 7 2 10-9-5-9 5 2-10-8-7 10-1 6-9ZM250 222l3 7 8 1-6 5 2 8-7-4-7 4 2-8-6-5 8-1 3-7Z"
-        fill="#ed6744"
-      />
-      <g transform="translate(38 239) rotate(-14)">
-        <rect width="70" height="27" rx="6" fill="#b6ccb4" stroke="#33392e" strokeWidth="2" />
-        <path d="M14 9h40m-40 8h25" stroke="#557257" strokeWidth="2" />
-      </g>
-      <circle cx="265" cy="158" r="6" fill="#ed6744" />
-      <circle cx="89" cy="40" r="4" fill="#83a987" />
-    </svg>
-  );
-}
 export function Discover({
   openMeal,
   openStores,
@@ -112,44 +59,58 @@ export function Discover({
     .map((c) => a.meals.find((m) => m.code === c))
     .filter(Boolean) as Meal[];
   const shown = featured.length ? featured : a.meals.slice(0, 4);
+  const heroMeal = a.meals.find((meal) => meal.code === '1100') ?? a.meals[0];
+  // Public detail artwork captured in data/meal-details.json; no account data.
+  const heroImage =
+    heroMeal?.code === '1100'
+      ? 'https://menu-img.mcd.cn/pcm/prod/menu/20250611/product/MS_1100_600_1749175370846.png'
+      : heroMeal?.image;
   return (
     <>
       <div className="home-greeting">
         <div>
-          <span className="eyebrow">A LITTLE JOY, EVERY DAY</span>
-          <h1>生活有味，今天有麦。</h1>
+          <span className="discovery-date">{date}</span>
+          <h1>发现</h1>
+          <p>给日常，加一点喜欢。</p>
         </div>
-        <span className="date-pill">{date}</span>
+        <button className="discover-location" onClick={openStores} aria-label="选择餐厅">
+          <MapPin size={21} />
+        </button>
       </div>
       <section className="hero">
         <div className="hero-copy">
           <span className="hero-label">
-            <span />
-            每一餐，小冒险
+            <Sparkles size={15} /> 让味蕾，出发
           </span>
           <h2>
-            下一站，
+            下一口，
             <br />
-            吃点开心的<span>。</span>
+            有点不一样。
           </h2>
           <p>
-            把熟悉的日常，
+            熟悉的菜单，新的可能。
             <br />
-            过成有惊喜的旅程。
+            发现今天想吃的那一份。
           </p>
-          <button className="button dark" onClick={() => a.setTab('inspire')}>
-            出发找灵感
-            <ArrowUpRight size={18} />
+          <button className="button primary" onClick={() => a.setTab('inspire')}>
+            开启探索
+            <ArrowRight size={17} />
           </button>
         </div>
-        <JourneyArt />
-        <span className="hero-serial">McJOURNEY / VOL. 01</span>
+        <div className="hero-food">
+          {a.meals.length > 0 ? (
+            <FoodImage src={heroImage} name={heroMeal.name} />
+          ) : (
+            <PackageOpen size={90} strokeWidth={1} />
+          )}
+          <span className="hero-food-caption">每一餐，小冒险</span>
+        </div>
       </section>
       <div className="quick-grid">
         {[
           {
             Icon: Compass,
-            title: '挑点好吃的',
+            title: '去点餐',
             sub: '今天的快乐菜单',
             color: 'peach',
             click: () => a.setTab('menu'),
@@ -163,7 +124,7 @@ export function Discover({
           },
           {
             Icon: Ticket,
-            title: '我的麦钱包',
+            title: '麦钱包',
             sub: '优惠与积分一起管',
             color: 'green',
             click: () => a.setTab('wallet'),
@@ -188,16 +149,11 @@ export function Discover({
       <SectionTitle title="今日的小冒险" caption="灵感实验室" onClick={() => a.setTab('inspire')} />
       <button className="daily-quest" onClick={() => a.setTab('inspire')}>
         <div className="quest-stamp">
-          <Sparkles size={29} />
-          <small>
-            TRY SOMETHING
-            <br />
-            NEW TODAY
-          </small>
+          <Sparkles size={26} />
         </div>
         <div>
-          <span className="eyebrow">给日常一点新鲜感</span>
-          <h3>下一口，试试没选过的？</h3>
+          <span className="eyebrow">今日灵感</span>
+          <h3>试试你的下一份喜欢</h3>
           <p>放下“老样子”，开一个口味盲盒。</p>
         </div>
         <span className="round-arrow">
@@ -242,7 +198,7 @@ export function Discover({
           <ArrowUpRight size={19} />
         </button>
       </div>
-      <div className="home-footer">✳ 给平凡的一天，加一份喜欢。</div>
+      <div className="home-footer">每天一点新鲜感。</div>
     </>
   );
 }
@@ -353,7 +309,7 @@ export function Inspiration({
     <>
       <PageTitle
         eyebrow="THE TASTE LAB"
-        title="让下一口，有点意外。"
+        title="灵感"
         description="选择困难的时候，让一点点随机帮忙。"
       />
       <div className="lab-stage">
@@ -500,10 +456,10 @@ export async function exportCard(title: string, lines: string[], footer: string)
     .slice(0, 7)
     .map(
       (s, i) =>
-        `<text x="64" y="${300 + i * 54}" font-size="24" fill="#394336">${xml(s.slice(0, 28))}</text>`,
+        `<text x="64" y="${300 + i * 54}" font-size="24" fill="#1d1d1f">${xml(s.slice(0, 28))}</text>`,
     )
     .join('');
-  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="750" height="900"><rect width="750" height="900" rx="36" fill="#f8f5ee"/><rect x="32" y="32" width="686" height="836" rx="22" fill="none" stroke="#e1ddcf" stroke-width="2"/><text x="64" y="110" font-size="22" fill="#ed6744" font-family="sans-serif">McJOURNEY / 麦游记</text><text x="64" y="196" font-size="42" font-weight="bold" fill="#29352b" font-family="sans-serif">${xml(title.slice(0, 14))}</text><path d="M64 236h622" stroke="#c9c6b8" stroke-dasharray="6 8"/>${content}<circle cx="598" cy="735" r="60" fill="none" stroke="#ed6744" stroke-width="3"/><text x="598" y="730" text-anchor="middle" font-size="18" fill="#ed6744">A LITTLE</text><text x="598" y="760" text-anchor="middle" font-size="24" fill="#ed6744">JOY</text><text x="64" y="804" font-size="17" fill="#6b7469">${xml(footer.slice(0, 52))}</text></svg>`;
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="750" height="900"><rect width="750" height="900" rx="36" fill="#f5f5f7"/><rect x="32" y="32" width="686" height="836" rx="22" fill="none" stroke="#e1ddcf" stroke-width="2"/><text x="64" y="110" font-size="22" fill="#b64413" font-family="sans-serif">McJOURNEY / 麦游记</text><text x="64" y="196" font-size="42" font-weight="bold" fill="#1d1d1f" font-family="sans-serif">${xml(title.slice(0, 14))}</text><path d="M64 236h622" stroke="#c9c6b8" stroke-dasharray="6 8"/>${content}<circle cx="598" cy="735" r="60" fill="none" stroke="#b64413" stroke-width="3"/><text x="598" y="730" text-anchor="middle" font-size="18" fill="#b64413">A LITTLE</text><text x="598" y="760" text-anchor="middle" font-size="24" fill="#b64413">JOY</text><text x="64" y="804" font-size="17" fill="#636369">${xml(footer.slice(0, 52))}</text></svg>`;
   const url = URL.createObjectURL(new Blob([svg], { type: 'image/svg+xml' }));
   try {
     const image = new Image();
@@ -609,7 +565,7 @@ export function Passport({ openMeal }: { openMeal: (m: Meal) => void }) {
     <>
       <PageTitle
         eyebrow="MY TASTE PASSPORT"
-        title="每一口，都有故事。"
+        title="味觉护照"
         description="收藏喜欢，盖章留念，把快乐装进行囊。"
         action={
           <button className="icon-button" aria-label="护照设置" onClick={() => a.setSettings(true)}>
@@ -619,14 +575,14 @@ export function Passport({ openMeal }: { openMeal: (m: Meal) => void }) {
       />
       <section className="passport-cover">
         <div className="passport-meta">
-          <span>PERSONAL TASTE JOURNAL</span>
-          <span>VOL. 01</span>
+          <span>我的味觉记录</span>
+          <span>保存在此设备</span>
         </div>
         <div className="passport-emblem">
           <Compass size={55} strokeWidth={1.2} />
         </div>
         <h2>味觉护照</h2>
-        <span>TASTE PASSPORT</span>
+        <span>把喜欢，慢慢收藏。</span>
         <div className="passport-stats">
           <div>
             <strong>{stamps.length}</strong>
@@ -665,7 +621,7 @@ export function Passport({ openMeal }: { openMeal: (m: Meal) => void }) {
               {stamps.map((s, i) => (
                 <article className={`stamp-card stamp-${i % 3}`} key={s.id}>
                   <div className="stamp-top">
-                    <span>TRIED & LOVED</span>
+                    <span>尝过，喜欢</span>
                     <button
                       aria-label={`删除${s.name}印章`}
                       className="icon-button"
@@ -725,7 +681,7 @@ export function Passport({ openMeal }: { openMeal: (m: Meal) => void }) {
               {recipes.map((r) => (
                 <button key={r.id} className="recipe-card" onClick={() => setRecipe(r)}>
                   <span className="recipe-number">
-                    {String(recipes.indexOf(r) + 1).padStart(2, '0')}
+                    <BookOpen size={24} />
                   </span>
                   <div>
                     <strong>{r.name}</strong>

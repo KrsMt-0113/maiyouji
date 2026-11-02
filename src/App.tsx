@@ -133,13 +133,9 @@ function App() {
           onClick={() => a.setTab(key)}
         >
           <span className="nav-icon">
-            <Icon size={desktop ? 21 : 23} />
+            <Icon size={24} strokeWidth={a.tab === key ? 2.5 : 1.8} />
           </span>
-          <span>
-            {name}
-            {desktop && <small>{en}</small>}
-          </span>
-          {desktop && a.tab === key && <span className="nav-dot" />}
+          <span>{name}</span>
         </button>
       ))}
     </nav>
@@ -152,17 +148,10 @@ function App() {
             <Sandwich size={25} />
           </span>
           <div>
-            <strong>
-              麦游记<span>✳</span>
-            </strong>
-            <small>McJOURNEY</small>
+            <strong>麦游记</strong>
+            <small>每一餐，小冒险</small>
           </div>
         </a>
-        <p className="sidebar-tagline">
-          每一餐，
-          <br />
-          都是一场小冒险。
-        </p>
         {nav(true)}
         <div className="sidebar-bottom">
           <button onClick={() => a.setSettings(true)}>
@@ -172,7 +161,7 @@ function App() {
           <span>
             Made for little everyday joys.
             <br />
-            个人非官方应用 · v1.0
+            个人非官方应用
           </span>
         </div>
       </aside>
@@ -182,13 +171,9 @@ function App() {
             <span className="brand-icon">
               <Sandwich size={21} />
             </span>
-            <strong>
-              麦游记<span>✳</span>
-            </strong>
+            <strong>麦游记</strong>
           </a>
-          <div className="desktop-breadcrumb">
-            MY DAILY ADVENTURE <span>/</span> {tabs.find((t) => t.key === a.tab)?.en}
-          </div>
+          <div className="desktop-breadcrumb">{tabs.find((t) => t.key === a.tab)?.name}</div>
           <div className="topbar-actions">
             <button
               className={`connection-pill ${a.session.mode}`}
@@ -218,7 +203,8 @@ function App() {
         )}
         {a.session.mode === 'demo' && (
           <div className="demo-strip">
-            <span>✳</span>体验地图已展开 · 菜单为公开快照，积分与交易均为模拟
+            <span className="demo-indicator" aria-hidden="true" />
+            演示模式 · 价格与权益仅供体验
             <button onClick={() => a.setSettings(true)}>
               接入真实 MCP
               <ArrowUpRight size={12} />
@@ -257,43 +243,6 @@ function App() {
         </main>
         {nav()}
       </div>
-      <aside className="journey-side">
-        <div className="side-note">
-          <span className="eyebrow">YOUR NEXT STOP</span>
-          <div className="side-note-icon">
-            <MapPin size={27} />
-          </div>
-          <h3>快乐，离你不远。</h3>
-          <p>{a.context?.storeName ?? '找一家餐厅，开启今天的探索。'}</p>
-          <button className="button secondary full" onClick={() => setStores(true)}>
-            选择餐厅
-            <ArrowUpRight size={16} />
-          </button>
-        </div>
-        <div className="side-passport">
-          <span className="eyebrow">COLLECT LITTLE MOMENTS</span>
-          <BookOpen size={35} strokeWidth={1.2} />
-          <h3>喜欢，值得被记住。</h3>
-          <p>
-            用一枚小小的印章，
-            <br />
-            记录一次大大的满足。
-          </p>
-          <button className="text-button" onClick={() => a.setTab('passport')}>
-            翻开我的护照
-            <ArrowRight size={16} />
-          </button>
-        </div>
-        <button className="side-calendar" onClick={() => setCalendar(true)}>
-          <span>本月好事清单</span>
-          <ArrowUpRight size={20} />
-        </button>
-        <div className="side-tiny">
-          菜单价格以官方核价为准。
-          <br />
-          这一站，只负责让日常更有趣。
-        </div>
-      </aside>
       {stores && <StorePicker onClose={() => setStores(false)} />}{' '}
       {meal && a.context && (
         <MealDetail

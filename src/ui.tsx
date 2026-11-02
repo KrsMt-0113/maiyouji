@@ -1,4 +1,5 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useId } from 'react';
+import { createPortal } from 'react-dom';
 import {
   X,
   ArrowUpRight,
@@ -9,9 +10,14 @@ import {
   Minus,
   Heart,
   ChevronRight,
+  Coffee,
+  IceCream,
+  Sandwich,
 } from 'lucide-react';
 import { money, safeUrl, type Bag, type Meal } from '../shared/domain';
 import { useApp } from './state';
+const sheetStack: HTMLDialogElement[] = [];
+
 export function Sheet({
   title,
   children,
@@ -24,16 +30,43 @@ export function Sheet({
   wide?: boolean;
 }) {
   const ref = useRef<HTMLDialogElement>(null);
+  const titleId = useId();
+  const dragY = useRef<number | null>(null);
   useEffect(() => {
     const d = ref.current;
-    d?.showModal();
+    if (!d) return;
+    const previous = sheetStack.at(-1);
+    const returnFocus =
+      document.activeElement instanceof HTMLElement ? document.activeElement : null;
+    const previousContent = previous?.querySelector<HTMLElement>('.sheet-content');
+    const previousScroll = previousContent?.scrollTop ?? 0;
+    previous?.close();
+    sheetStack.push(d);
+    d.showModal();
     return () => {
-      d?.close();
+      const wasTop = sheetStack.at(-1) === d;
+      const index = sheetStack.indexOf(d);
+      if (index !== -1) sheetStack.splice(index, 1);
+      d.close();
+      if (wasTop) {
+        const parent = sheetStack.at(-1);
+        if (parent?.isConnected && !parent.open) {
+          parent.showModal();
+          if (parent === previous) {
+            if (previousContent) previousContent.scrollTop = previousScroll;
+            if (returnFocus?.isConnected && parent.contains(returnFocus))
+              returnFocus.focus({ preventScroll: true });
+          }
+        } else if (!parent && returnFocus?.isConnected && !d.contains(returnFocus)) {
+          returnFocus.focus({ preventScroll: true });
+        }
+      }
     };
   }, []);
-  return (
+  return createPortal(
     <dialog
       ref={ref}
+      aria-labelledby={titleId}
       className={`sheet ${wide ? 'wide' : ''}`}
       onCancel={(e) => {
         e.preventDefault();
@@ -44,15 +77,34 @@ export function Sheet({
       }}
     >
       <div className="sheet-content">
+        <button
+          className="sheet-drag-handle"
+          aria-label="关闭面板"
+          onClick={onClose}
+          onPointerDown={(e) => {
+            dragY.current = e.clientY;
+            e.currentTarget.setPointerCapture(e.pointerId);
+          }}
+          onPointerUp={(e) => {
+            if (dragY.current !== null && e.clientY - dragY.current > 80) onClose();
+            dragY.current = null;
+          }}
+          onPointerCancel={() => {
+            dragY.current = null;
+          }}
+        >
+          <span />
+        </button>
         <div className="sheet-head">
-          <h2>{title}</h2>
+          <h2 id={titleId}>{title}</h2>
           <button autoFocus className="icon-button" aria-label="关闭" onClick={onClose}>
             <X size={22} />
           </button>
         </div>
         {children}
       </div>
-    </dialog>
+    </dialog>,
+    document.body,
   );
 }
 export function PageTitle({
@@ -68,7 +120,6 @@ export function PageTitle({
 }) {
   return (
     <header className="page-title">
-      <span className="eyebrow">{eyebrow}</span>
       <div className="title-row">
         <h1>{title}</h1>
         {action}
@@ -195,14 +246,14 @@ export function FoodImage({
       {!bad && safeUrl(src) ? (
         <img src={safeUrl(src)} alt={name} loading="lazy" onError={() => setBad(true)} />
       ) : (
-        <span aria-label={name} className="food-placeholder">
-          {name.includes('咖啡')
-            ? '☕'
-            : name.includes('薯')
-              ? '🍟'
-              : name.includes('冰')
-                ? '🍦'
-                : '🍔'}
+        <span role="img" aria-label={name} className="food-placeholder">
+          {name.includes('咖啡') ? (
+            <Coffee size={46} strokeWidth={1.4} />
+          ) : name.includes('冰') ? (
+            <IceCream size={46} strokeWidth={1.4} />
+          ) : (
+            <Sandwich size={46} strokeWidth={1.4} />
+          )}
         </span>
       )}
     </div>
@@ -240,7 +291,7 @@ export function MealCard({
         aria-label={`${liked ? '取消收藏' : '收藏'}${meal.name}`}
         onClick={() => a.setFavorites((f) => (liked ? f.filter((k) => k !== key) : [...f, key]))}
       >
-        <Heart size={17} fill={liked ? 'currentColor' : 'none'} />
+        <Heart size={19} fill={liked ? 'currentColor' : 'none'} />
       </button>
       <button className="add-food" aria-label={`选择${meal.name}`} onClick={onClick}>
         <Plus size={19} />

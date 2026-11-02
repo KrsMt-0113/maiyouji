@@ -61,7 +61,7 @@ export function Wallet({
     <>
       <PageTitle
         eyebrow="YOUR LITTLE TREASURY"
-        title="快乐，也要精打细算。"
+        title="钱包"
         description="积分、好券、小惊喜，都在这里。"
         action={
           <button className="icon-button" aria-label="刷新钱包" onClick={a.refresh}>
@@ -70,9 +70,7 @@ export function Wallet({
         }
       />
       <section className="wallet-card">
-        <span className="eyebrow">
-          {a.session?.mode === 'demo' ? 'DEMO POINTS · 演示积分' : 'MY MCD POINTS'}
-        </span>
+        <span className="eyebrow">{a.session?.mode === 'demo' ? '演示积分' : '我的积分'}</span>
         <ResourceStatus resource={account}>
           <div className="points-number">
             {account.data?.availablePoint ?? '—'}
@@ -93,8 +91,7 @@ export function Wallet({
             <Gift size={17} />
           </button>
         </div>
-        <div className="wallet-orbit" />
-        <Coins className="wallet-decoration" size={100} strokeWidth={1} />
+        <Coins className="wallet-decoration" size={88} strokeWidth={1.25} />
       </section>
       <div className="wallet-shortcuts">
         {[

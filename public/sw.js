@@ -1,5 +1,5 @@
 // Only the public app shell is cached. Member data and API requests never enter caches.
-const CACHE = 'maiyouji-shell-v1';
+const CACHE = 'maiyouji-shell-v2';
 self.addEventListener('install', (event) => {
   event.waitUntil(
     caches

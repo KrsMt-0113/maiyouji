@@ -19,7 +19,8 @@ import {
   ChevronRight,
 } from 'lucide-react';
 import { useApp } from './state';
-import { Discover, Inspiration, Passport, CalendarSheet } from './Explore';
+import { Discover, Inspiration, Passport } from './Explore';
+import { CalendarSheet } from './Calendar';
 import { MenuPage, StorePicker, MealDetail, CartSheet } from './Dining';
 import { Wallet, LotterySheet, MallSheet, OrdersSheet, NutritionSheet } from './Wallet';
 import { Sheet, DataView, PaymentLink } from './ui';

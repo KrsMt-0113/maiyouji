@@ -184,62 +184,6 @@ export function Discover({
     </>
   );
 }
-export function CalendarSheet({ onClose }: { onClose: () => void }) {
-  const dateFmt = new Intl.DateTimeFormat('en-CA', {
-    timeZone: 'Asia/Shanghai',
-    year: 'numeric',
-    month: '2-digit',
-    day: '2-digit',
-  });
-  const [date, setDate] = useState(dateFmt.format(new Date()));
-  const [all, setAll] = useState(false);
-  const r = useResource('campaign-calendar', all ? {} : { specifiedDate: date });
-  return (
-    <Sheet title="快乐活动日历" onClose={onClose} wide>
-      <div className="button-row">
-        <label className="grow">
-          看看这一天
-          <input
-            type="date"
-            value={date}
-            onChange={(e) => {
-              setDate(e.target.value);
-              setAll(false);
-            }}
-          />
-        </label>
-        <button className={`button ${all ? 'dark' : 'secondary'}`} onClick={() => setAll(true)}>
-          本月全部
-        </button>
-      </div>
-      <ResourceStatus resource={r} empty={!r.data?.dailyList?.length}>
-        <div className="calendar-list">
-          {(r.data?.dailyList ?? []).map((d: Bag) => (
-            <section key={d.date}>
-              <h3>
-                {d.date}
-                <span className="pill">{d.today ? '今天' : (d.dateText ?? '活动日')}</span>
-              </h3>
-              {(d.events ?? []).map((e: Bag, i: number) => (
-                <article className="event-card" key={i}>
-                  <span className="eyebrow">
-                    {e.eventType === 2 ? 'COUPON' : 'GOOD THINGS AHEAD'}
-                  </span>
-                  <h3>{e.articleDto?.title || e.activityTitle || '麦麦活动'}</h3>
-                  <p className="preline">
-                    {e.articleDto?.content || e.activitySubTitle || '详情请前往麦当劳 App 查看。'}
-                  </p>
-                  {e.price && e.price !== '0' && <strong>¥{e.price} 起</strong>}
-                </article>
-              ))}
-            </section>
-          ))}
-        </div>
-      </ResourceStatus>
-      <p className="micro muted">活动文案来自 MCP；开售时间、库存及参加条件以官方页面为准。</p>
-    </Sheet>
-  );
-}
 export function Inspiration({
   openMeal,
   openStores,

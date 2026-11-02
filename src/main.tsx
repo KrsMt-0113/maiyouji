@@ -4,6 +4,7 @@ import App from './App';
 import ErrorBoundary from './ErrorBoundary';
 import { Provider } from './state';
 import './styles.css';
+import './ios.css';
 
 createRoot(document.getElementById('root')!).render(
   <ErrorBoundary>

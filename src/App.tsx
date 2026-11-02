@@ -7,15 +7,12 @@ import {
   BookOpen,
   Settings,
   ShoppingBag,
-  MapPin,
   ArrowUpRight,
   LoaderCircle,
   WifiOff,
-  Check,
   ShieldCheck,
   ArrowRight,
   Sandwich,
-  RefreshCw,
   Download,
   Trash2,
   LockKeyhole,
@@ -125,7 +122,7 @@ function App() {
       className={desktop ? 'desktop-nav' : 'bottom-nav'}
       aria-label={desktop ? '主导航' : '底部导航'}
     >
-      {tabs.map(({ key, name, Icon, en }) => (
+      {tabs.map(({ key, name, Icon }) => (
         <button
           className={a.tab === key ? 'current' : ''}
           aria-current={a.tab === key ? 'page' : undefined}
@@ -167,21 +164,21 @@ function App() {
       </aside>
       <div className="main-column">
         <header className="topbar">
-          <a href="/" className="brand mobile-brand">
-            <span className="brand-icon">
-              <Sandwich size={21} />
+          <button
+            className={`toolbar-mode ${a.session.mode}`}
+            onClick={() => a.setSettings(true)}
+            aria-label="连接与设置"
+          >
+            <span className="mode-dot" />
+            <span>
+              <strong>{a.session.mode === 'demo' ? '演示模式' : '真实 MCP'}</strong>
+              <small>
+                {a.session.mode === 'demo' ? '体验数据 · 非真实交易' : '已连接麦当劳服务'}
+              </small>
             </span>
-            <strong>麦游记</strong>
-          </a>
-          <div className="desktop-breadcrumb">{tabs.find((t) => t.key === a.tab)?.name}</div>
+            <ChevronRight size={14} />
+          </button>
           <div className="topbar-actions">
-            <button
-              className={`connection-pill ${a.session.mode}`}
-              onClick={() => a.setSettings(true)}
-            >
-              <i />
-              {a.session.mode === 'demo' ? '演示体验' : '真实 MCP'}
-            </button>
             <button
               className="icon-button top-cart"
               aria-label={`打开餐袋，${cartCount}份餐品`}
@@ -190,8 +187,8 @@ function App() {
               <ShoppingBag size={22} />
               {cartCount > 0 && <i>{cartCount}</i>}
             </button>
-            <button className="avatar" aria-label="连接与设置" onClick={() => a.setSettings(true)}>
-              麦
+            <button className="avatar" aria-label="打开设置" onClick={() => a.setSettings(true)}>
+              <Settings size={21} />
             </button>
           </div>
         </header>
@@ -199,16 +196,6 @@ function App() {
           <div className="offline-banner">
             <WifiOff size={15} />
             当前离线，账户、菜单和订单查询需要联网。
-          </div>
-        )}
-        {a.session.mode === 'demo' && (
-          <div className="demo-strip">
-            <span className="demo-indicator" aria-hidden="true" />
-            演示模式 · 价格与权益仅供体验
-            <button onClick={() => a.setSettings(true)}>
-              接入真实 MCP
-              <ArrowUpRight size={12} />
-            </button>
           </div>
         )}
         <main id="main-content" className={`page page-${a.tab}`}>

@@ -3,8 +3,8 @@
   "short_name": "麦游记",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#f5f5f7",
-  "theme_color": "#f5f5f7",
+  "background_color": "#f2f2f7",
+  "theme_color": "#f2f2f7",
   "lang": "zh-CN",
   "icons": [
     { "src": "/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },

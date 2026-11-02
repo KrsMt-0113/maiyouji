@@ -1,0 +1,677 @@
+/* Content-first iOS-inspired web presentation. Native controls remain HTML. */
+:root {
+  --background: #f2f2f7;
+  --surface: #ffffff;
+  --surface-secondary: #e9e9ef;
+  --label: #1c1c1e;
+  --secondary: #626268;
+  --accent: #0066cc;
+  --accent-soft: #e9f2ff;
+  --line: #d9d9df;
+  --glass: rgb(247 247 250 / 94%);
+  --shadow: none;
+  --hero: var(--surface);
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #000000;
+    --surface: #1c1c1e;
+    --surface-secondary: #2c2c2e;
+    --label: #f5f5f7;
+    --secondary: #aeaeb2;
+    --accent: #78b8ff;
+    --accent-soft: #172a42;
+    --line: #38383a;
+    --glass: rgb(22 22 24 / 94%);
+  }
+}
+h1 {
+  font-weight: 700;
+  letter-spacing: -0.035em;
+}
+h2 {
+  letter-spacing: -0.022em;
+}
+.topbar {
+  height: 68px;
+  padding-inline: 40px;
+}
+.toolbar-mode {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  min-height: 44px;
+  text-align: start;
+  padding: 0;
+}
+.toolbar-mode > span:nth-child(2) {
+  display: grid;
+  gap: 2px;
+}
+.toolbar-mode strong {
+  font-size: 0.765rem;
+  font-weight: 600;
+}
+.toolbar-mode small {
+  font-size: 0.706rem;
+  color: var(--secondary);
+}
+.toolbar-mode > svg {
+  color: var(--secondary);
+}
+.mode-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--secondary);
+}
+.toolbar-mode.live .mode-dot {
+  background: var(--signal);
+}
+.topbar-actions {
+  gap: 8px;
+  color: var(--accent);
+}
+.avatar {
+  background: none;
+  color: var(--accent);
+}
+.sidebar {
+  background: var(--surface);
+  border-right: 1px solid var(--line);
+}
+.brand-icon {
+  background: var(--accent-soft);
+  color: var(--accent);
+  border-radius: 10px;
+}
+.desktop-nav button.current {
+  background: var(--accent-soft);
+}
+.page {
+  padding: 12px 40px 50px;
+  max-width: 1080px;
+}
+.page-title {
+  margin: 0 0 24px;
+}
+.page-title p {
+  font-size: 0.883rem;
+  margin-top: 6px;
+}
+.home-greeting {
+  margin: 0 0 20px;
+  display: block;
+}
+.discovery-date {
+  display: block;
+  font-size: 0.765rem;
+  color: var(--secondary);
+  margin-bottom: 6px;
+}
+.section-title {
+  margin: 28px 0 12px;
+}
+.section-title h2 {
+  font-size: 1.235rem;
+}
+.text-button {
+  color: var(--accent);
+}
+.restaurant-row {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 16px;
+  text-align: start;
+  background: var(--surface);
+  border-radius: 14px;
+  min-height: 72px;
+}
+.restaurant-row > span:nth-child(2) {
+  flex: 1;
+  min-width: 0;
+}
+.restaurant-row strong {
+  display: block;
+  font-size: 0.941rem;
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+.restaurant-row small {
+  display: block;
+  color: var(--secondary);
+  font-size: 0.765rem;
+  margin-top: 2px;
+}
+.restaurant-row > svg {
+  color: var(--secondary);
+}
+.row-symbol {
+  color: var(--accent);
+}
+.today-meal {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr 45%;
+  align-items: center;
+  width: 100%;
+  min-height: 208px;
+  background: var(--surface);
+  padding: 24px;
+  border-radius: 18px;
+  text-align: start;
+  overflow: hidden;
+}
+.content-kicker {
+  font-size: 0.765rem;
+  font-weight: 600;
+  color: var(--accent);
+}
+.today-meal h2 {
+  margin: 8px 0 5px;
+  font-size: 1.65rem;
+}
+.today-meal p {
+  font-size: 0.823rem;
+  color: var(--secondary);
+}
+.today-meal-copy > strong {
+  display: block;
+  margin-top: 14px;
+  font-size: 1rem;
+  font-variant-numeric: tabular-nums;
+}
+.today-meal > .food-image {
+  min-width: 0;
+  width: 100%;
+  height: 170px;
+  aspect-ratio: auto;
+  background: none;
+}
+.today-meal .food-image img {
+  padding: 0;
+}
+.today-disclosure {
+  position: absolute;
+  right: 14px;
+  bottom: 14px;
+  color: var(--accent);
+}
+.discovery-pair {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin-top: 14px;
+}
+.discovery-note {
+  display: flex;
+  flex-direction: column;
+  text-align: start;
+  align-items: flex-start;
+  background: var(--surface);
+  border-radius: 16px;
+  padding: 20px;
+}
+.note-symbol {
+  color: var(--accent);
+  margin-bottom: 12px;
+}
+.discovery-note > strong {
+  font-size: 1rem;
+  font-weight: 600;
+}
+.discovery-note small {
+  font-size: 0.765rem;
+  color: var(--secondary);
+  margin-top: 5px;
+}
+.note-link {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  color: var(--accent);
+  font-size: 0.765rem;
+  margin-top: 14px;
+}
+.grouped-list {
+  background: var(--surface);
+  border-radius: 14px;
+  overflow: hidden;
+}
+.grouped-row {
+  display: flex;
+  width: 100%;
+  gap: 12px;
+  align-items: center;
+  min-height: 76px;
+  padding: 14px 16px;
+  text-align: start;
+  position: relative;
+}
+.grouped-row:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  left: 59px;
+  right: 0;
+  bottom: 0;
+  height: 1px;
+  background: var(--line);
+}
+.grouped-row > span:nth-child(2) {
+  flex: 1;
+  min-width: 0;
+}
+.grouped-row strong {
+  display: block;
+  font-size: 0.941rem;
+  font-weight: 500;
+}
+.grouped-row small {
+  display: block;
+  color: var(--secondary);
+  font-size: 0.765rem;
+  margin-top: 2px;
+}
+.grouped-row > svg:last-child {
+  color: var(--secondary);
+}
+.list-symbol {
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  min-width: 30px;
+  border-radius: 7px;
+  background: var(--accent);
+  color: var(--surface);
+}
+.list-symbol.red {
+  background: #bd3045;
+  color: #fff;
+}
+.list-symbol.purple {
+  background: #7950b8;
+  color: #fff;
+}
+.list-symbol.orange {
+  background: #a65818;
+  color: #fff;
+}
+.page-caption {
+  color: var(--secondary);
+  font-size: 0.765rem;
+  margin: 14px 16px 0;
+}
+.meal-card {
+  border-radius: 16px;
+  box-shadow: none;
+}
+.food-image {
+  background: var(--surface);
+}
+.meal-info h3,
+.compact .meal-info h3 {
+  min-height: 0;
+  font-size: 0.941rem;
+}
+.meal-tag {
+  color: var(--secondary);
+}
+.meal-price strong {
+  font-size: 1rem;
+}
+.favorite {
+  background: var(--surface-secondary);
+}
+.add-food {
+  background: var(--accent-soft);
+}
+.button {
+  border-radius: 12px;
+  font-weight: 600;
+}
+.chip {
+  border-radius: 9px;
+  background: var(--surface-secondary);
+  border-color: transparent;
+}
+.chip.selected {
+  color: var(--label);
+  background: var(--surface);
+  border-color: var(--line);
+  box-shadow: 0 1px 3px rgb(0 0 0 / 8%);
+}
+.search-bar {
+  background: var(--surface-secondary);
+  border-radius: 12px;
+  box-shadow: none;
+}
+.location-bar {
+  border-radius: 14px;
+  background: var(--surface);
+}
+.wallet-card {
+  border-radius: 18px;
+  padding: 24px;
+}
+.points-number {
+  font-size: 3rem;
+  letter-spacing: -0.04em;
+}
+.wallet-decoration {
+  display: none;
+}
+.wallet-links > button {
+  border-radius: 10px;
+  flex: 1;
+  gap: 10px;
+}
+.wallet-shortcuts {
+  display: block;
+  margin: 20px 0 28px;
+}
+.wallet-shortcuts > button {
+  position: relative;
+  width: 100%;
+  min-height: 58px;
+  padding: 12px 16px;
+  display: flex;
+  flex-direction: row;
+  gap: 12px;
+  border-radius: 0;
+  font-size: 0.941rem;
+  text-align: start;
+}
+.wallet-shortcuts > button > span:nth-child(2) {
+  flex: 1;
+}
+.wallet-shortcuts > button > svg:last-child {
+  color: var(--secondary);
+  width: 17px;
+}
+.wallet-shortcuts > button:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 58px;
+  right: 0;
+  height: 1px;
+  background: var(--line);
+}
+.coupon-card {
+  border-radius: 14px;
+  padding: 20px;
+}
+.lab-stage {
+  border-radius: 18px;
+  padding: 24px;
+}
+.lab-stage > .content-kicker {
+  display: block;
+  margin-bottom: 8px;
+}
+.lab-stage p {
+  font-size: 0.883rem;
+}
+.mystery-box {
+  width: 110px;
+  height: 110px;
+  margin: 12px auto;
+}
+.mystery-box > svg {
+  width: 60px;
+  height: 60px;
+  padding: 16px;
+  border-radius: 22px;
+}
+.lab-controls {
+  border-radius: 18px;
+}
+.passport-cover {
+  border-radius: 18px;
+  padding: 24px;
+  text-align: start;
+}
+.passport-meta {
+  margin-bottom: 18px;
+}
+.passport-emblem {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  margin: 0 0 14px;
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+.passport-emblem > svg {
+  width: 30px;
+  height: 30px;
+}
+.passport-cover h2 {
+  font-size: 1.4rem;
+  margin: 0 0 6px;
+}
+.passport-cover > span {
+  font-size: 0.823rem;
+}
+.passport-stats {
+  margin-top: 24px;
+  border-top: 1px solid var(--line);
+  padding-top: 20px;
+}
+.passport-stats > div {
+  align-items: flex-start;
+}
+.passport-stats strong {
+  font-size: 1.65rem;
+  font-weight: 600;
+}
+.passport-tabs {
+  gap: 6px;
+}
+.sheet {
+  border-radius: 24px;
+}
+.sheet-head h2 {
+  font-size: 1.235rem;
+}
+@media (max-width: 760px) {
+  .topbar {
+    min-height: 64px;
+    padding: 8px 20px;
+    background: var(--background);
+    border-bottom: 0;
+    backdrop-filter: none;
+    position: static;
+  }
+  .toolbar-mode {
+    gap: 7px;
+  }
+  .page {
+    padding: 8px 20px calc(100px + env(safe-area-inset-bottom));
+  }
+  .page-title {
+    margin-top: 0;
+    margin-bottom: 22px;
+  }
+  .home-greeting {
+    margin-bottom: 20px;
+  }
+  .today-meal {
+    min-height: 188px;
+    padding: 20px;
+    grid-template-columns: 1fr 43%;
+  }
+  .today-meal h2 {
+    font-size: 1.4rem;
+  }
+  .today-meal p {
+    font-size: 0.765rem;
+    max-width: 10em;
+  }
+  .today-meal > .food-image {
+    height: 132px;
+  }
+  .discovery-pair {
+    gap: 12px;
+    margin-top: 12px;
+  }
+  .discovery-note {
+    padding: 16px;
+  }
+  .discovery-note strong {
+    font-size: 0.941rem;
+  }
+  .discovery-note small {
+    font-size: 0.765rem;
+    line-height: 1.5;
+  }
+  .section-title {
+    margin: 24px 0 12px;
+  }
+  .featured-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+  }
+  .meal-info,
+  .compact .meal-info {
+    padding: 12px;
+  }
+  .meal-info h3,
+  .compact .meal-info h3 {
+    font-size: 0.883rem;
+    min-height: 2.8em;
+  }
+  .meal-price,
+  .compact .meal-price {
+    min-height: 44px;
+  }
+  .bottom-nav {
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    max-width: none;
+    transform: none;
+    border-radius: 0;
+    border: 0;
+    border-top: 1px solid var(--line);
+    height: auto;
+    min-height: 76px;
+    padding: 6px 8px calc(8px + env(safe-area-inset-bottom));
+    background: var(--glass);
+    box-shadow: none;
+    backdrop-filter: blur(20px);
+  }
+  .bottom-nav button {
+    min-height: 56px;
+    flex: 1;
+    gap: 4px;
+    padding: 6px 0;
+    border-radius: 10px;
+    color: var(--secondary);
+    font-size: 0.706rem;
+    font-weight: 500;
+    background: transparent;
+  }
+  .bottom-nav button.current {
+    color: var(--accent);
+    background: transparent;
+    font-weight: 600;
+  }
+  .bottom-nav .nav-icon {
+    background: none;
+    height: 26px;
+  }
+  .bottom-nav button.current .nav-icon {
+    background: none;
+  }
+  .wallet-card {
+    padding: 22px;
+  }
+  .wallet-shortcuts > button {
+    padding: 12px 16px;
+    min-height: 58px;
+  }
+  .lab-stage {
+    padding: 22px;
+  }
+  .passport-cover {
+    padding: 22px;
+  }
+  .sheet {
+    border-radius: 24px 24px 0 0;
+  }
+}
+@container app-content (max-width: 16rem) {
+  .discovery-pair,
+  .featured-grid {
+    grid-template-columns: 1fr;
+  }
+  .today-meal {
+    grid-template-columns: 1fr;
+  }
+  .today-meal > .food-image {
+    height: 160px;
+  }
+  .toolbar-mode small {
+    white-space: normal;
+  }
+  .restaurant-row {
+    align-items: flex-start;
+  }
+}
+@media (prefers-reduced-transparency: reduce) {
+  .bottom-nav {
+    background: var(--surface);
+    backdrop-filter: none;
+  }
+}
+@media (prefers-contrast: more) {
+  :root {
+    --secondary: #414147;
+    --line: #99999f;
+  }
+}
+@media (prefers-contrast: more) and (prefers-color-scheme: dark) {
+  :root {
+    --secondary: #d2d2d7;
+    --line: #89898e;
+  }
+}
+/* Selected filters retain visible text in both appearances. */
+.lab-controls .chip.selected {
+  background: var(--accent-soft);
+  color: var(--accent);
+  border-color: var(--accent);
+}
+.passport-tabs {
+  display: flex;
+  padding: 3px;
+  background: var(--surface-secondary);
+  border-radius: 11px;
+  gap: 2px;
+}
+.passport-tabs .chip {
+  flex: 1;
+  padding: 8px 3px;
+  background: transparent;
+  white-space: normal;
+  font-size: 0.765rem;
+}
+.passport-tabs .chip.selected {
+  background: var(--surface);
+  border-color: transparent;
+}
+@media (max-width: 760px) {
+  .stamp-grid {
+    grid-template-columns: 1fr;
+  }
+}
+@media (max-width: 760px) {
+  .topbar {
+    height: auto;
+  }
+}

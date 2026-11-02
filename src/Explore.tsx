@@ -1,25 +1,20 @@
 import React, { useState } from 'react';
 import {
   ArrowUpRight,
-  ArrowRight,
   Compass,
   Gift,
-  Ticket,
   CalendarDays,
   Sparkles,
   Shuffle,
   PackageOpen,
-  Heart,
   MapPin,
   ChevronRight,
-  Check,
   Download,
   Star,
   BookOpen,
   Plus,
   Trash2,
   Clock3,
-  Flame,
   Users,
 } from 'lucide-react';
 import { useApp, useResource, type Recipe } from './state';
@@ -71,97 +66,71 @@ export function Discover({
         <div>
           <span className="discovery-date">{date}</span>
           <h1>发现</h1>
-          <p>给日常，加一点喜欢。</p>
         </div>
-        <button className="discover-location" onClick={openStores} aria-label="选择餐厅">
+      </div>
+      <button className="restaurant-row" onClick={openStores}>
+        <span className="row-symbol">
           <MapPin size={21} />
+        </span>
+        <span>
+          <strong>{a.context?.storeName || '选择餐厅'}</strong>
+          <small>{a.context ? '当前餐厅 · 轻点切换' : '查看附近餐厅与可选菜单'}</small>
+        </span>
+        <ChevronRight size={18} />
+      </button>
+      <SectionTitle title="今天吃什么" caption="全部菜单" onClick={() => a.setTab('menu')} />
+      {a.context ? (
+        <ResourceStatus resource={a.menu} empty={!heroMeal}>
+          {heroMeal && (
+            <button
+              className="today-meal"
+              onClick={() => openMeal(heroMeal)}
+              aria-label={`今日餐选：${heroMeal.name}`}
+            >
+              <div className="today-meal-copy">
+                <span className="content-kicker">经典餐选</span>
+                <h2>{heroMeal.name}</h2>
+                <p>熟悉的一口，随时都喜欢。</p>
+                <strong>{money(heroMeal.price)}</strong>
+              </div>
+              <FoodImage src={heroImage} name={heroMeal.name} />
+              <span className="today-disclosure">
+                <ChevronRight size={18} />
+              </span>
+            </button>
+          )}
+        </ResourceStatus>
+      ) : (
+        <button className="callout" onClick={openStores}>
+          <MapPin size={25} />
+          <span>选一家餐厅，看看今天的菜单</span>
+          <ChevronRight />
+        </button>
+      )}
+      <div className="discovery-pair">
+        <button className="discovery-note" onClick={() => a.setTab('inspire')}>
+          <span className="note-symbol">
+            <Shuffle size={22} />
+          </span>
+          <strong>换个口味</strong>
+          <small>按心情与预算，开一份盲盒</small>
+          <span className="note-link">
+            找点灵感 <ChevronRight size={14} />
+          </span>
+        </button>
+        <button className="discovery-note" onClick={() => a.setTab('passport')}>
+          <span className="note-symbol">
+            <BookOpen size={22} />
+          </span>
+          <strong>记住这一口</strong>
+          <small>把喜欢的味道，留在护照里</small>
+          <span className="note-link">
+            我的护照 <ChevronRight size={14} />
+          </span>
         </button>
       </div>
-      <section className="hero">
-        <div className="hero-copy">
-          <span className="hero-label">
-            <Sparkles size={15} /> 让味蕾，出发
-          </span>
-          <h2>
-            下一口，
-            <br />
-            有点不一样。
-          </h2>
-          <p>
-            熟悉的菜单，新的可能。
-            <br />
-            发现今天想吃的那一份。
-          </p>
-          <button className="button primary" onClick={() => a.setTab('inspire')}>
-            开启探索
-            <ArrowRight size={17} />
-          </button>
-        </div>
-        <div className="hero-food">
-          {a.meals.length > 0 ? (
-            <FoodImage src={heroImage} name={heroMeal.name} />
-          ) : (
-            <PackageOpen size={90} strokeWidth={1} />
-          )}
-          <span className="hero-food-caption">每一餐，小冒险</span>
-        </div>
-      </section>
-      <div className="quick-grid">
-        {[
-          {
-            Icon: Compass,
-            title: '去点餐',
-            sub: '今天的快乐菜单',
-            color: 'peach',
-            click: () => a.setTab('menu'),
-          },
-          {
-            Icon: PackageOpen,
-            title: '口味盲盒',
-            sub: '让味蕾去旅行',
-            color: 'yellow',
-            click: () => a.setTab('inspire'),
-          },
-          {
-            Icon: Ticket,
-            title: '麦钱包',
-            sub: '优惠与积分一起管',
-            color: 'green',
-            click: () => a.setTab('wallet'),
-          },
-          {
-            Icon: CalendarDays,
-            title: '周末去玩',
-            sub: '派对与城市小聚',
-            color: 'blue',
-            click: openParty,
-          },
-        ].map(({ Icon, title, sub, color, click }) => (
-          <button className="quick-item" onClick={click} key={title}>
-            <span className={`quick-icon ${color}`}>
-              <Icon size={23} />
-            </span>
-            <strong>{title}</strong>
-            <small>{sub}</small>
-          </button>
-        ))}
-      </div>
-      <SectionTitle title="今日的小冒险" caption="灵感实验室" onClick={() => a.setTab('inspire')} />
-      <button className="daily-quest" onClick={() => a.setTab('inspire')}>
-        <div className="quest-stamp">
-          <Sparkles size={26} />
-        </div>
-        <div>
-          <span className="eyebrow">今日灵感</span>
-          <h3>试试你的下一份喜欢</h3>
-          <p>放下“老样子”，开一个口味盲盒。</p>
-        </div>
-        <span className="round-arrow">
-          <ArrowUpRight size={21} />
-        </span>
-      </button>
-      <SectionTitle title="快乐，刚刚好" caption="打开菜单" onClick={() => a.setTab('menu')} />
-      {a.context ? (
+      <SectionTitle title="再看看这些" caption="查看菜单" onClick={() => a.setTab('menu')} />
+      {a.context && (
         <ResourceStatus resource={a.menu}>
           <div className="featured-grid">
             {shown.map((m) => (
@@ -169,36 +138,49 @@ export function Discover({
             ))}
           </div>
         </ResourceStatus>
-      ) : (
-        <button className="callout" onClick={openStores}>
-          <MapPin size={25} />
-          <div>
-            <strong>从一家餐厅开始</strong>
-            <p>选好位置，打开真实的快乐菜单。</p>
-          </div>
-          <ArrowRight />
-        </button>
       )}
-      <SectionTitle title="生活还有这些小惊喜" />
-      <div className="mini-banners">
-        <button className="mini-banner lavender" onClick={openLottery}>
-          <Gift size={29} />
-          <span>
-            <strong>麦麦惊喜站</strong>
-            <small>先看奖品，再决定要不要抽</small>
-          </span>
-          <ArrowUpRight size={19} />
-        </button>
-        <button className="mini-banner cream" onClick={openCalendar}>
-          <CalendarDays size={29} />
-          <span>
-            <strong>把快乐排进日历</strong>
-            <small>新活动，总值得期待一下</small>
-          </span>
-          <ArrowUpRight size={19} />
-        </button>
+      <SectionTitle title="活动与体验" />
+      <div className="grouped-list">
+        {[
+          {
+            Icon: CalendarDays,
+            title: '活动日历',
+            detail: '看看接下来有什么',
+            click: openCalendar,
+            tone: 'red',
+          },
+          {
+            Icon: Gift,
+            title: '积分抽奖',
+            detail: '先看奖品和参与条件',
+            click: openLottery,
+            tone: 'purple',
+          },
+          {
+            Icon: Users,
+            title: '派对与聚会',
+            detail: '寻找城市里的相聚时刻',
+            click: openParty,
+            tone: 'orange',
+          },
+        ].map(({ Icon, title, detail, click, tone }) => (
+          <button className="grouped-row" key={title} onClick={click}>
+            <span className={`list-symbol ${tone}`}>
+              <Icon size={19} />
+            </span>
+            <span>
+              <strong>{title}</strong>
+              <small>{detail}</small>
+            </span>
+            <ChevronRight size={17} />
+          </button>
+        ))}
       </div>
-      <div className="home-footer">每天一点新鲜感。</div>
+      <p className="page-caption">
+        {a.session?.mode === 'demo'
+          ? '演示餐品与价格仅供体验；操作不会产生真实订单。'
+          : '价格与供应以当前餐厅核价结果为准。'}
+      </p>
     </>
   );
 }
@@ -313,7 +295,7 @@ export function Inspiration({
         description="选择困难的时候，让一点点随机帮忙。"
       />
       <div className="lab-stage">
-        <span className="lab-scribble">let your taste wander ↗</span>
+        <span className="content-kicker">随心餐选</span>
         {kind === '转盘' ? (
           <div className={`taste-wheel ${spinning ? 'rolling' : ''}`}>
             <div className="wheel-pointer" />
@@ -361,6 +343,7 @@ export function Inspiration({
           {['随心一点', '经典老友', '尝鲜出发', '来点甜的'].map((s) => (
             <button
               className={`chip ${mood === s ? 'selected' : ''}`}
+              aria-pressed={mood === s}
               key={s}
               onClick={() => setMood(s)}
             >
@@ -566,7 +549,7 @@ export function Passport({ openMeal }: { openMeal: (m: Meal) => void }) {
       <PageTitle
         eyebrow="MY TASTE PASSPORT"
         title="味觉护照"
-        description="收藏喜欢，盖章留念，把快乐装进行囊。"
+        description="你的餐单、印章和味觉回忆。"
         action={
           <button className="icon-button" aria-label="护照设置" onClick={() => a.setSettings(true)}>
             <BookOpen size={23} />
@@ -581,8 +564,8 @@ export function Passport({ openMeal }: { openMeal: (m: Meal) => void }) {
         <div className="passport-emblem">
           <Compass size={55} strokeWidth={1.2} />
         </div>
-        <h2>味觉护照</h2>
-        <span>把喜欢，慢慢收藏。</span>
+        <h2>每一口，都算数。</h2>
+        <span>从一次尝鲜，慢慢认识自己的喜欢。</span>
         <div className="passport-stats">
           <div>
             <strong>{stamps.length}</strong>
@@ -603,6 +586,7 @@ export function Passport({ openMeal }: { openMeal: (m: Meal) => void }) {
           <button
             key={s}
             className={`chip ${section === s ? 'selected' : ''}`}
+            aria-pressed={section === s}
             onClick={() => setSection(s)}
           >
             {s}

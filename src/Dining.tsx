@@ -698,6 +698,7 @@ export function MenuPage({
               <button
                 key={c}
                 className={`chip ${category === c ? 'selected' : ''}`}
+                aria-pressed={category === c}
                 onClick={() => setCategory(c)}
               >
                 {c}

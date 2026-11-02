@@ -6,7 +6,6 @@ import {
   ArrowUpRight,
   ChevronRight,
   RefreshCw,
-  ShoppingBag,
   Package,
   CalendarDays,
   Award,
@@ -62,7 +61,7 @@ export function Wallet({
       <PageTitle
         eyebrow="YOUR LITTLE TREASURY"
         title="钱包"
-        description="积分、好券、小惊喜，都在这里。"
+        description="查看积分、优惠券与订单。"
         action={
           <button className="icon-button" aria-label="刷新钱包" onClick={a.refresh}>
             <RefreshCw size={20} />
@@ -93,7 +92,7 @@ export function Wallet({
         </div>
         <Coins className="wallet-decoration" size={88} strokeWidth={1.25} />
       </section>
-      <div className="wallet-shortcuts">
+      <div className="wallet-shortcuts grouped-list">
         {[
           { Icon: Ticket, name: '麦麦省领券', click: () => setClaim(true) },
           { Icon: Package, name: '我的订单', click: openOrders },
@@ -101,8 +100,11 @@ export function Wallet({
           { Icon: Leaf, name: '营养对照', click: openNutrition },
         ].map(({ Icon, name, click }) => (
           <button key={name} onClick={click}>
-            <Icon size={22} />
+            <span className="list-symbol blue">
+              <Icon size={19} />
+            </span>
             <span>{name}</span>
+            <ChevronRight size={17} />
           </button>
         ))}
       </div>

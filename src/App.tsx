@@ -121,7 +121,9 @@ function App() {
     <nav
       className={desktop ? 'desktop-nav' : 'bottom-nav'}
       aria-label={desktop ? '主导航' : '底部导航'}
+      style={{ '--tab-index': tabs.findIndex((tab) => tab.key === a.tab) } as React.CSSProperties}
     >
+      <span className="nav-selection" aria-hidden="true" />
       {tabs.map(({ key, name, Icon }) => (
         <button
           className={a.tab === key ? 'current' : ''}
